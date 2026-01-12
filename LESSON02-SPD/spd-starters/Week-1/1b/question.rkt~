@@ -1,0 +1,11 @@
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-intermediate-reader.ss" "lang")((modname question) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #t)))
+;; Image,Image -> Boolean
+;; Given two images shape like rectangle, return true if First is larger than another
+
+(check-expect (first-img-larger? (ractangle 10 20 "solid" "blue") (ractangle 20 20 "solid" "red")) true)
+(check-expect (first-img-larger? (ractangle 10 20 "solid" "blue") (ractangle 10 20 "solid" "red")) false)
+
+
+(define (first-img-larger? img1 img2) true)
