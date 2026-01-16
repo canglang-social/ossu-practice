@@ -30,20 +30,17 @@
 (define D4 (make-elt "D4" 0 (list F1 F2)))
 (define D5 (make-elt "D5" 0 (list F3)))
 (define D6 (make-elt "D6" 0 (list D4 D5)))
-
 #;
 (define (fn-for-element e)
-  (local [(define (fn-for-element e)
-            (... (elt-name e)    ;String
-                 (elt-data e)    ;Integer
-                 (fn-for-loe (elt-subs e))))
-          (define (fn-for-loe loe)
-            (cond [(empty? loe) (...)]
-                  [else
-                   (... (fn-for-element (first loe))
-                        (fn-for-loe (rest loe)))]))])
-
-  (fn-for-element e))
+  (... (elt-name e)    ;String
+       (elt-data e)    ;Integer
+       (fn-for-loe (elt-subs e))))
+#;
+(define (fn-for-loe loe)
+  (cond [(empty? loe) (...)]
+        [else
+         (... (fn-for-element (first loe))
+              (fn-for-loe (rest loe)))]))
 
 
 ;; Functions:
@@ -56,32 +53,22 @@
 ;
 
 ;; Element -> Integer
+;; ListOfElement -> Integer
 ;; produce the sum of all the data in element (and its subs)
-(check-expect (sum-data F1) 1)
-(check-expect (sum-data D5) 3)
-(check-expect (sum-data D4) (+ 1 2))
-(check-expect (sum-data D6) (+ 1 2 3))
+(check-expect (sum-data--element F1) 1)
+(check-expect (sum-data--loe empty) 0)
+(check-expect (sum-data--element D5) 3)
+(check-expect (sum-data--element D4) (+ 1 2))
+(check-expect (sum-data--element D6) (+ 1 2 3))
 
-;(define (sum-data e) 0)  ;stubs
+;(define (sum-data--element e) 0)  ;stubs
+;(define (sum-data--loe loe) 0)
 
-(define (sum-data e)
-  (local [(define (fn-for-element e)
-            (if (zero? (elt-data e))
-                (fn-for-loe (elt-subs e))
-                (elt-data e)))
-          (define (fn-for-loe loe)
-            (cond [(empty? loe) 0]
-                  [else
-                   (+ (fn-for-element (first loe))
-                      (fn-for-loe (rest loe)))]))]
-
-    (fn-for-element e)))
-#;
 (define (sum-data--element e)
   (if (zero? (elt-data e))
       (sum-data--loe (elt-subs e))
       (elt-data e)))
-#; 
+
 (define (sum-data--loe loe)
   (cond [(empty? loe) 0]
         [else
